@@ -1,0 +1,272 @@
+import os
+
+# Content for overlanding.html
+overlanding_html_content = """<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4x4 Overlanding i Vejle | Eksklusiv Naturoplevelse</title>
+    <meta name="description" content="Oplev ægte overlanding på 18 hektar privat land i Vejle. Kun for 4x4 køretøjer. Åbent hele året.">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Campground",
+      "name": "4x4 Overlanding Gården Vejle",
+      "description": "Privat overlanding område på 18 hektar for 4x4 køretøjer.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vejle",
+        "addressCountry": "DK"
+      },
+      "priceRange": "150 DKK",
+      "amenityFeature": {
+        "@type": "LocationFeatureSpecification",
+        "name": "Water fill up",
+        "value": "40 DKK"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3d4c41;
+            --accent: #c4a484;
+            --bg: #f9f7f2;
+            --text: #2d2d2d;
+            --white: #ffffff;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--primary); }
+
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(249, 247, 242, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(61, 76, 65, 0.1);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Content Styles */
+        .page-header {
+            padding: 12rem 5% 4rem;
+            background: linear-gradient(135deg, #2d3830 0%, #3d4c41 100%);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--white); }
+
+        section { padding: 6rem 5%; max-width: 1200px; margin: 0 auto; }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .pricing-table {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent);
+        }
+
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-row:last-child { border-bottom: none; }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .status-open {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .cta-box {
+            text-align: center;
+            background: #f0ede6;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            margin-top: 4rem;
+        }
+
+        .whatsapp-link {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* SVG Placeholder for Land */
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background: #e5e5e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer {
+            background-color: #1a221c;
+            color: var(--white);
+            padding: 5rem 5% 2rem;
+            text-align: center;
+            margin-top: 6rem;
+        }
+
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; display: block; }
+        .footer-contact a { color: var(--accent); text-decoration: none; font-size: 1.2rem; }
+        .copyright { font-size: 0.8rem; opacity: 0.5; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; margin-top: 3rem; }
+
+        @media (max-width: 768px) {
+            .experience-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">GÅRDEN I VEJLE</a>
+        <div class="nav-links">
+            <a href="index.html">Forside</a>
+            <a href="airbnb.html">Airbnb</a>
+            <a href="overlanding.html">Overlanding</a>
+            <a href="pony.html">Ponyridning</a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <span style="text-transform: uppercase; letter-spacing: 2px;">Vildmark & Frihed</span>
+        <h1>4x4 Overlanding</h1>
+        <p>18 hektar privat land eksklusivt til dine eventyr.</p>
+    </div>
+
+    <section>
+        <div class="experience-grid">
+            <div class="info-text">
+                <span class="tag">Kun for 4x4 køretøjer</span>
+                <h2>Gør naturen tilgængelig</h2>
+                <br>
+                <p>Vi ejer 18 hektar privat land, som vi ønsker at gøre tilgængeligt for dig! Besøg os og oplev den ultimative frihed. Da vores terræn er rent natur, er det udelukkende for 4x4-biler.</p>
+                <br>
+                <p>Vi prioriterer privatliv og sørger for, at overlanding hos os forbliver en unik og fredfyldt naturoplevelse. Du kan finde vores eventyr på Instagram, hvor en film af området er tilgængelig.</p>
+                <br>
+                <p><strong>WhatsApp:</strong> Giv os gerne besked via WhatsApp, når du ankommer, så vi kan byde dig velkommen.</p>
+            </div>
+            
+            <div class="pricing-table">
+                <h3>Priser & Information</h3>
+                <br>
+                <div class="pricing-row">
+                    <span>Parkering (pr. nat)</span>
+                    <strong>150 DKK / 20 €</strong>
+                </div>
+                <div class="pricing-row">
+                    <span>Vandpåfyldning</span>
+                    <strong>40 DKK / 5 €</strong>
+                </div>
+                <div class="pricing-row">
+                    <span>Antal pladser</span>
+                    <strong>15</strong>
+                </div>
+                <div class="pricing-row">
+                    <span>Sæson</span>
+                    <span class="status-open">Åbent hele året</span>
+                </div>
+                <br>
+                <a href="mailto:hej@webatelier.dk" style="display: block; text-align: center; padding: 1rem; background: var(--primary); color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">Book din plads</a>
+            </div>
+        </div>
+
+        <div class="cta-box">
+            <div class="map-placeholder">
+                <svg width="100%" height="100%" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="800" height="400" fill="#c4cec6"/>
+                    <path d="M100,300 Q200,100 400,250 T700,100" fill="none" stroke="#3d4c41" stroke-width="3" stroke-dasharray="10,5"/>
+                    <circle cx="400" cy="250" r="10" fill="#c4a484"/>
+                    <text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="18" fill="#3d4c41">18 Hektar Privat Natur</text>
+                </svg>
+            </div>
+            <h2>Klar til eventyr?</h2>
+            <p>Kontakt os direkte via e-mail for at reservere eller få mere information om terrænet.</p>
+            <br>
+            <a href="mailto:hej@webatelier.dk" class="whatsapp-link">Send os en mail her: hej@webatelier.dk</a>
+        </div>
+    </section>
+
+    <footer>
+        <span class="footer-logo">Gården i Vejle</span>
+        <div class="footer-contact">
+            <p>4x4 Overlanding & Natur</p>
+            <br>
+            <a href="mailto:hej@webatelier.dk">hej@webatelier.dk</a>
+        </div>
+        <p class="copyright">&copy; 2024 Web Atelier - Ingen cookies, ingen sporing.</p>
+    </footer>
+
+</body>
+</html>
+"""
+
+# Saving the file
+with open("overlanding.html", "w", encoding="utf-8") as f:
+    f.write(overlanding_html_content)
+
+print("overlanding.html generated successfully.")
